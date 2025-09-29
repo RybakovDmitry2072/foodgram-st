@@ -5,6 +5,7 @@ services:
     build: ../frontend
     volumes:
       - ../frontend/:/app/result_build/
+
   nginx:
     container_name: foodgram-proxy
     image: nginx:1.25.4-alpine
@@ -23,9 +24,11 @@ services:
     volumes:
       - foodgram_db_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=foodgramDB
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgresmaster
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_NAME=foodgramDB
+      - DB_USER=postgres
+      - DB_PASSWORD=postgresmaster
 
   backend:
     image: foodgram_backend:latest

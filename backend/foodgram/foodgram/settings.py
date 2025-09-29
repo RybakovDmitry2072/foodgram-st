@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,7 +17,7 @@ SECRET_KEY = 'django-insecure-9mm^lsls&ox*bik9tb02-@zx398&_-^&p+^cplb%_wh=i+q5wz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -75,11 +77,11 @@ WSGI_APPLICATION = 'foodgram.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'foodgram_db',
-        'USER': 'postgres',
-        'PASSWORD': 'rootwert',
-        'HOST': 'localhost',
-        'PORT': 5432
+        'NAME': os.getenv('DB_NAME', 'foodgramDB'),
+        'USER': os.getenv('DB_USER', 'postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'postgresmaster'),
+        'HOST': os.getenv('DB_HOST', 'database'),  # Значение по умолчанию 'database'
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
