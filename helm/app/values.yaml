@@ -12,6 +12,12 @@ global:
   serviceName:
     front: foodgram-frontend-service
 
+postgres:
+  secrets:
+    postgres-password: ref+vault://secrets/db#/postgres-password
+    postgres-user: ref+vault://secrets/db#/postgres-user
+    postgres-name: ref+vault://secrets/db#/postgres-name
+
 ingress:
   host: foodgram.local
   port:

@@ -1,0 +1,45 @@
+global:
+  enabled: true
+  tlsDisable: true
+
+injector:
+  enabled: false
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+    - host: vault.localhost
+    extraPaths:
+    - path: /ui
+      pathType: Prefix
+      backend:
+        service:
+          name: vault-ui
+          port:
+            number: 8200
+    - path: /
+      pathType: Prefix
+      backend:
+        service:
+          name: vault
+          port:
+            number: 8200
+  standalone:
+    enabled: true
+    config: |
+      ui = true
+      listener "tcp" {
+        address = "[::]:8200"
+        cluster_address = "[::]:8201"
+        tls_disable = "true"
+      }
+      
+      storage "file" {
+        path = "/vault/data"
+      }
+
+ui:
+  enabled: true
+  serviceType: "NodePort"
