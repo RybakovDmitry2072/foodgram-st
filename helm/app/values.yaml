@@ -1,0 +1,18 @@
+global:
+  secret:
+    name: db-secret
+  config:
+    name: db-config
+  nginxConfig: 
+    name:
+  mediaPvc:
+    name: media-pvc
+  staticPvc:
+    name: static-pvc
+  serviceName:
+    front: foodgram-frontend-service
+
+ingress:
+  host: foodgram.local
+  port:
+    number: 80

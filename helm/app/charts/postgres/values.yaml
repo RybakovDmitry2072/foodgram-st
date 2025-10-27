@@ -1,0 +1,36 @@
+secrets:
+  postgres-password: postgresmaster
+  postgres-user: postgres
+  postgres-name: foodgramDB
+
+configMap:
+  DB_PORT: 5432
+  DB_HOST: "postgres-service.vault-app.svc.cluster.local"
+
+service:
+  type: ClusterIP
+  ports:
+    port: 5432
+    targetPort: 5432
+
+statefulset:
+  mountPath: /var/lib/postgresql/data
+  replicas: 1
+  image:
+    name: postgres
+    tag: 14.0-alpine
+  pvc:
+    accessModes: ReadWriteOnce
+    storageClassName: standard
+    resources:
+        requests:
+          storage: 10Gi
+  env:
+    values: {}
+    config:
+      DB_HOST: DB_HOST
+      DB_PORT: DB_PORT
+    secret:
+      POSTGRES_PASSWORD: postgres-password
+      POSTGRES_USER: postgres-user
+      POSTGRES_DB: postgres-name

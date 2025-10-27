@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Chart.Name }}-collectstatic
+  namespace: {{ .Release.Namespace }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}-collectstatic
+        {{- with .Values.deployment.image }}
+        image: {{ printf "%s:%s" .name .tag }}
+        {{- end }}
+        command: ["python",  "manage.py", "collectstatic", "--no-input"]
+        volumeMounts:
+        - name: {{ .Chart.Name }}-static
+          mountPath: {{ .Values.jobCollectstatic.mountPath }}
+      restartPolicy: {{ .Values.jobCollectstatic.restartPolicy }}
+
+      volumes:
+      - name: {{ .Chart.Name }}-static
+        persistentVolumeClaim:
+          claimName: static-pvc
+  backoffLimit: 4
