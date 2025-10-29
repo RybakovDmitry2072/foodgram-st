@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: {{ .Chart.Name}}-ingress
   namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "app.labels" . | indent 4 }}
 spec:
   rules:
   - host: {{ .Values.ingress.host }}
